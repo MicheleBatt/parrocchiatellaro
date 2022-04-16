@@ -34,21 +34,19 @@ class Backoffice::MovementsController < BackofficeController
 
       render json: @movement
     rescue StandardError => e
-      byebug
       render json: { messages: e.message }, status: :unprocessable_entity
     end
   end
 
   # PATCH/PUT /movements/1 or /movements/1.json
   def update
-    respond_to do |format|
-      if @movement.update(movement_params)
-        format.html { redirect_to movement_url(@movement), notice: "Movement was successfully updated." }
-        format.json { render :show, status: :ok, location: @movement }
-      else
-        format.html { render :edit, status: :unprocessable_entity }
-        format.json { render json: @movement.errors, status: :unprocessable_entity }
-      end
+    begin
+      @movement.update!(movement_params)
+
+      render json: @movement
+    rescue StandardError => e
+      Rails.logger.warn e
+      render json: { message: e.message }, status: :unprocessable_entity
     end
   end
 

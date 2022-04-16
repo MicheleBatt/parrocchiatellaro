@@ -1,0 +1,94 @@
+@import url("https://fonts.googleapis.com/css?family=Montserrat:400,800");
+
+.body-container h1 {
+  font-weight: bold;
+}
+
+.body-container h2 {
+  font-weight: bold;
+}
+
+.body-container p {
+  font-size: 14px;
+  font-weight: 100;
+  line-height: 0px;
+  letter-spacing: 0.5px;
+  margin: 20px 0 30px;
+}
+
+.body-container span {
+  font-size: 12px;
+}
+
+.body-container a {
+  color: #333;
+  font-size: 14px;
+  text-decoration: none;
+  margin: 15px 0;
+}
+
+.body-container .button-sign {
+  border-radius: 20px;
+  border: 1px solid #00a2dd;
+  background-color: #00a2dd;
+  color: #ffffff;
+  font-size: 18px;
+  font-weight: bold;
+  padding: 8px 78px;
+  margin: 20px 0px 0px 0px;
+  letter-spacing: 1px;
+  white-space: normal;
+  text-transform: uppercase;
+  transition: transform 80ms ease-in;
+}
+
+.body-container .button-sign:active {
+  transform: scale(0.95);
+}
+
+.body-container .button-sign:focus {
+  outline: none;
+}
+
+.body-container .button-sign.ghost {
+  background-color: transparent;
+  border-color: #ffffff;
+}
+
+.body-container form {
+  padding: 20px 40px 50px 40px;
+  text-align: center;
+}
+
+.input-field {
+  background-color: #eee;
+  border: none;
+  padding: 12px 20px;
+}
+.line {
+  line-height: 0;
+}
+
+.col-centered{
+  margin: 0 auto;
+  float: none;
+}
+
+.social-container {
+  margin: 20px 0;
+}
+
+.social-container a {
+  border: 1px solid #dddddd;
+  border-radius: 50%;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 5px;
+  height: 40px;
+  width: 40px;
+}
+
+.text-weight-300 {
+  font-weight: 300 !important;
+}

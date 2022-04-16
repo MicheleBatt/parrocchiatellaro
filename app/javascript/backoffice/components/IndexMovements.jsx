@@ -18,7 +18,6 @@ const IndexMovements = ({
     const [ colors, setColors ] = useState(originalColors)
     const [ showErrorModal, setShowErrorModal ] = useState(false)
     const [ initCompleted, setInitCompleted ] = useState(false)
-    const [ amountsByExpensiveItems, setAmountsByExpensiveItems ] = useState(count.amounts_by_expensive_items)
     const initialFilters = {
         from_date: null,
         to_date: null,
@@ -91,13 +90,12 @@ const IndexMovements = ({
     }, [ filters ]);
 
 
-    // Funzione che permette di creare un nuovo movimento di cassa mediante query al server
-    const createMovement = () => {
-        const url = "/backoffice/movements";
-        console.log(movement)
+    // Funzione che permette di creare un nuovo movimento di cassa / modificarne uno già esistente mediante query al server
+    const handleCreateUpdateMovement = () => {
+        const url = movement.id ? `/backoffice/movements/${movement.id}` : "/backoffice/movements";
 
-        fetch(url, {
-            method: "POST",
+        fetch(url + '.json', {
+            method: movement.id ? "PUT" : "POST",
             headers: {
                 Accept: "application/json",
                 "Content-Type": "application/json",
@@ -144,9 +142,9 @@ const IndexMovements = ({
     const appendExpensiveItem = (newExpensiveItem) => {
         setExpensiveItems(expensiveItems.concat([newExpensiveItem]))
 
-        const newAmountsByExpensiveItem = { ...amountsByExpensiveItems }
+        const newAmountsByExpensiveItem = { ...count.amounts_by_expensive_items }
         newAmountsByExpensiveItem[newExpensiveItem['id'].toString()] = 0.0
-        setAmountsByExpensiveItems(newAmountsByExpensiveItem)
+        setCount({...count, amounts_by_expensive_items: newAmountsByExpensiveItem})
 
         setColors(colors.filter((color) => color !== newExpensiveItem.color))
     }
@@ -343,7 +341,7 @@ const IndexMovements = ({
                   <div className="col-1 pr-0 pl-0">
                       <label>A partire da</label>
                       <input
-                          type="datetime-local"
+                          type="date"
                           value={filters.from_date ? filters.from_date : ""}
                           className="form-control"
                           onChange={(e) => updateFilters("from_date", e.target.value) }
@@ -355,7 +353,7 @@ const IndexMovements = ({
                   <div className="col-1 pr-0">
                       <label>Entro il</label>
                       <input
-                          type="datetime-local"
+                          type="date"
                           value={filters.to_date ? filters.to_date : ""}
                           className="form-control"
                           onChange={(e) => updateFilters("to_date", e.target.value) }
@@ -484,8 +482,8 @@ const IndexMovements = ({
                               <b>AMMONTARE { expensiveItem.description.toUpperCase() }:</b>
                           </td>
                           <td className="text-center b-solid">
-                              { amountsByExpensiveItems[expensiveItem.id.toString()] && amountsByExpensiveItems[expensiveItem.id.toString()] > 0.0 ?
-                                  parseAmount(amountsByExpensiveItems[expensiveItem.id.toString()])
+                              { count.amounts_by_expensive_items[expensiveItem.id.toString()] && count.amounts_by_expensive_items[expensiveItem.id.toString()] > 0.0 ?
+                                  parseAmount(count.amounts_by_expensive_items[expensiveItem.id.toString()])
                               :
                                 ''
                               }
@@ -499,7 +497,7 @@ const IndexMovements = ({
                   movement={movement}
                   setMovement={setMovement}
                   expensive_items={expensiveItems}
-                  handleConfirm={createMovement}
+                  handleConfirm={handleCreateUpdateMovement}
               />
 
               <ErrorModal

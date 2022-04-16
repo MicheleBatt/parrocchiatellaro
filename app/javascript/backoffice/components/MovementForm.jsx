@@ -11,7 +11,7 @@ const MovementForm = ({ movement, setMovement, expensive_items }) => {
             <div className="row mb-3">
                 <div className="col-6 d-block justify-content-start mt-3">
                     <b style={{display: 'block'}}>Data Valuta</b>
-                    <input type="datetime-local"
+                    <input type="date"
                            name="currency_date"
                            id="movement_currency_date"
                            className="form-control"

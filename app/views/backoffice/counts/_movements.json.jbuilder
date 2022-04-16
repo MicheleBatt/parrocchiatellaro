@@ -1,5 +1,6 @@
 json.array! @movements.each do | movement |
   json.id movement.id
+  json.count_id movement.count_id
   json.amount movement.amount
   json.causal movement.causal
   json.note movement.note
