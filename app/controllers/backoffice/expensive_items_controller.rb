@@ -1,9 +1,10 @@
 class Backoffice::ExpensiveItemsController < BackofficeController
   before_action :set_expensive_item, only: %i[ show edit update destroy ]
+  before_action :authenticate_user!
 
   # GET /expensive_items or /expensive_items.json
   def index
-    @expensive_items = ExpensiveItem.all
+    @expensive_items = Count.find(params[:count_id].to_i).expensive_items
   end
 
   # GET /expensive_items/1 or /expensive_items/1.json
@@ -19,31 +20,28 @@ class Backoffice::ExpensiveItemsController < BackofficeController
   def edit
   end
 
-  # POST /expensive_items or /expensive_items.json
+  # POST /backoffice/expensive_items or /backoffice/expensive_items.json
   def create
-    @expensive_item = ExpensiveItem.new(expensive_item_params)
+    begin
+      @expensive_item = ExpensiveItem.new(expensive_item_params)
+      @expensive_item.save!
 
-    respond_to do |format|
-      if @expensive_item.save
-        format.html { redirect_to expensive_item_url(@expensive_item), notice: "Expensive item was successfully created." }
-        format.json { render :show, status: :created, location: @expensive_item }
-      else
-        format.html { render :new, status: :unprocessable_entity }
-        format.json { render json: @expensive_item.errors, status: :unprocessable_entity }
-      end
+      render json: @expensive_item
+    rescue StandardError => e
+      Rails.logger.warn e
+      render json: { message: e.message }, status: :unprocessable_entity
     end
   end
 
   # PATCH/PUT /expensive_items/1 or /expensive_items/1.json
   def update
-    respond_to do |format|
-      if @expensive_item.update(expensive_item_params)
-        format.html { redirect_to expensive_item_url(@expensive_item), notice: "Expensive item was successfully updated." }
-        format.json { render :show, status: :ok, location: @expensive_item }
-      else
-        format.html { render :edit, status: :unprocessable_entity }
-        format.json { render json: @expensive_item.errors, status: :unprocessable_entity }
-      end
+    begin
+      @expensive_item.update!(expensive_item_params)
+
+      render json: @expensive_item
+    rescue StandardError => e
+      Rails.logger.warn e
+      render json: { message: e.message }, status: :unprocessable_entity
     end
   end
 
@@ -52,7 +50,7 @@ class Backoffice::ExpensiveItemsController < BackofficeController
     @expensive_item.destroy
 
     respond_to do |format|
-      format.html { redirect_to expensive_items_url, notice: "Expensive item was successfully destroyed." }
+      format.html { redirect_to backoffice_count_expensive_items_url, notice: "Categoria cancellata con successo!" }
       format.json { head :no_content }
     end
   end
@@ -65,6 +63,6 @@ class Backoffice::ExpensiveItemsController < BackofficeController
 
     # Only allow a list of trusted parameters through.
     def expensive_item_params
-      params.require(:expensive_item).permit(:description)
+      params.require(:expensive_item).permit(:description, :color, :count_id)
     end
 end

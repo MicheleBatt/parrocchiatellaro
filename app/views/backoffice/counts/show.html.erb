@@ -1,0 +1,14 @@
+<p style="color: green"><%= notice %></p>
+
+<% @expensive_items = @count.expensive_items %>
+
+<%= react_component("IndexMovements",
+  {
+    originalCount: render(template: 'backoffice/counts/count', formats: [:json]),
+    expensive_items: render(template: 'backoffice/counts/expensive_items', formats: [:json]),
+    currentAmount: current_count_amount(@count),
+    originalColors: colors(params[:id].to_i)
+  })
+%>
+
+

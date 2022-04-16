@@ -1,15 +1,15 @@
 <div class="container mb-5">
   <div class="container shadow bg-light card p-4 my-4">
-    <h2>Categoria <%= @expensive_item.description %>
+    <h2><%= @count.name %>
     </h2>
   </div>
 
   <div class="container card shadow bg-light p-4 my-4">
     <h4 class='d-flex justify-content-end text-right pb-5 pl-5'>
-      <%= link_to "Torna all'elenco con tutte le categorie", backoffice_count_expensive_items_path, class:"btn btn-primary" %>
+      <%= link_to "Torna all'elenco di tutti i conti Correnti", backoffice_counts_url, class:"btn btn-primary" %>
     </h4>
 
-    <%= render 'form', expensive_item: @expensive_item %>
+    <%= render 'form', count: @count %>
   </div>
 </div>
 

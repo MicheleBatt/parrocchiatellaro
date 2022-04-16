@@ -1,0 +1,63 @@
+<p style="color: green"><%= notice %></p>
+
+<div class="container mb-5">
+  <div class="container shadow bg-light card p-4 my-4">
+    <h2>Elenco di tutti i Conti Correnti presenti in archivio</h2>
+  </div>
+
+  <div class="container shadow bg-light card p-4">
+    <div class="f-flex justify-content-end text-right mb-5">
+      <%= link_to new_backoffice_count_path, class:"btn btn-primary" do %>
+        <i class="fas fa-plus mr-1 w-5"></i>
+        <span class="nav-label">
+          Crea un nuovo Conto
+        </span>
+      <% end %>
+    </div>
+
+    <% if @counts.present? %>
+      <div class="table-responsive" data-controller="reloader">
+        <table class="table table-hover no-margins">
+          <thead>
+          <tr>
+            <th class="text-center">ID</th>
+            <th class="text-center">Nome</th>
+            <th class="text-center">Descrizione</th>
+            <th class="text-center">Ammontare Corrente (€)</th>
+            <th class="buttons"></th>
+          </tr>
+          </thead>
+          <tbody>
+          <% @counts.each do |count| %>
+            <tr>
+              <td class="text-center"><%= count.id %></td>
+
+              <td class="text-center"><%= count.name %></td>
+              <td class="text-center"><%= count.description %></td>
+              <td class="text-center"><%= current_count_amount(count) %>€</td>
+
+              <td class="text-center">
+                <div class="btn-group">
+                  <%= link_to backoffice_count_path(count), class: "btn btn-xs btn-secondary rounded mr-1", title: 'Show' do %>
+                    <i class="fas fa-fw fa-eye"></i>
+                  <% end %>
+                  <%= link_to edit_backoffice_count_path(count), class: "btn btn-xs btn-secondary rounded mr-1", title: 'Edit' do %>
+                    <i class="fas fa-fw fa-edit"></i>
+                  <% end %>
+                </div>
+              </td>
+            </tr>
+          <% end %>
+          </tbody>
+        </table>
+      </div>
+    <% else %>
+      <div class="text-center">
+        <p class="text-muted">
+          <i class="fas fa-sad-tear fa-2x fa-align-middle mr-2 mb-5"></i>
+          Spiacenti, al momento non ci sono conti correnti in archivio...
+        </p>
+      </div>
+    <% end %>
+  </div>
+</div>

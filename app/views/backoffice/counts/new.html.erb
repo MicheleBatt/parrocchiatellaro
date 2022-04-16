@@ -1,13 +1,13 @@
 <div class="container mb-5">
   <div class="container shadow bg-light card p-4 my-4">
-    <h2>Inserisci una nuova Categoria</h2>
+    <h2>Crea un nuovo Conto Corrente</h2>
   </div>
 
   <div class="container card shadow bg-light p-4 my-4">
     <h4 class='d-flex justify-content-end text-right pb-5 pl-5'>
-      <%= link_to 'Torna a tutte le Categorie', backoffice_count_expensive_items_path, class:"btn btn-primary" %>
+      <%= link_to "Torna all'elenco di tutti i conti Correnti", backoffice_counts_path, class:"btn btn-primary" %>
     </h4>
 
-    <%= render 'form', expensive_item: @expensive_item %>
+    <%= render 'form', encasing: @count %>
   </div>
 </div>

@@ -1,5 +1,6 @@
 class Backoffice::MovementsController < BackofficeController
   before_action :set_movement, only: %i[ show edit update destroy ]
+  before_action :authenticate_user!
 
   # GET /movements or /movements.json
   def index
@@ -69,6 +70,6 @@ class Backoffice::MovementsController < BackofficeController
 
     # Only allow a list of trusted parameters through.
     def movement_params
-      params.require(:movement).permit(:user_id, :expensive_item_id, :amount, :causal, :movement_type, :currency_date, :note)
+      params.require(:movement).permit(:user_id, :expensive_item_id, :amount, :causal, :movement_type, :currency_date, :note, :count_id)
     end
 end

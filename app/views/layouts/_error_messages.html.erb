@@ -1,0 +1,12 @@
+<% if obj && obj.errors.any? %>
+  <ul class="alert-errors list-unstyled">
+    <% obj.errors.full_messages.reverse_each do |msg| %>
+      <li class="alert alert-danger alert-dismissable" data-dismiss="alert" data-controller="flash" data-flash-type="error">
+        <button class="close" data-dismiss="alert" type="button">
+          <span>&times;</span>
+        </button>
+        <span data-target="flash.message"><%= msg %></span>
+      </li>
+    <% end %>
+  </ul>
+<% end %>

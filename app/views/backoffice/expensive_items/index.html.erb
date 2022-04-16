@@ -1,14 +1,72 @@
 <p style="color: green"><%= notice %></p>
 
-<h1>Expensive items</h1>
+<div class="container mb-5">
+  <div class="container shadow bg-light card p-4 my-4">
+    <h2>Categorie</h2>
+  </div>
 
-<!--<div id="expensive_items">-->
-  <%# @expensive_items.each do |expensive_item| %>
-    <%#= render expensive_item %>
-<!--    <p>-->
-      <%#= link_to "Show this expensive item", expensive_item %>
-<!--    </p>-->
-  <%# end %>
-<!--</div>-->
+  <div class="container shadow bg-light card p-4">
+    <div class="f-flex justify-content-end text-right mb-5">
+      <%= link_to backoffice_count_path(params[:count_id]), class:"btn btn-secondary" do %>
+        <span class="nav-label">
+          Torna alla pagina principale del conto
+        </span>
+      <% end %>
 
-<%#= link_to "New expensive item", new_expensive_item_path %>
+      <%= link_to new_backoffice_count_expensive_item_path, class:"btn btn-primary" do %>
+        <i class="fas fa-plus mr-1 w-5"></i>
+        <span class="nav-label">
+          Inserisci una nuova Categoria
+        </span>
+      <% end %>
+    </div>
+
+    <% if @expensive_items.present? %>
+      <div class="table-responsive" data-controller="reloader">
+        <table class="table table-hover no-margins">
+          <thead>
+          <tr>
+            <th class="text-center">ID</th>
+            <th class="text-center">Descrizione</th>
+            <th class="text-center"></th>
+            <th class="buttons"></th>
+          </tr>
+          </thead>
+          <tbody>
+          <% @expensive_items.each do |expensive_item| %>
+            <tr>
+              <td class="text-center"><%= expensive_item.id %></td>
+
+              <td class="text-center"><%= expensive_item.description %></td>
+              <td class="text-center">
+                <div style="background-color: <%= expensive_item.color %>"
+                     class="color-box not-selected-color-box rounded"></div>
+              </td>
+
+              <td class="text-center">
+                <div class="btn-group">
+                  <%= link_to "/backoffice/counts/#{params[:count_id]}/expensive_items/#{expensive_item.id}/edit", class: "btn btn-xs btn-secondary rounded mr-1", title: 'Edit' do %>
+                    <i class="fas fa-fw fa-edit"></i>
+                  <% end %>
+                  <% if expensive_item.movements.blank? %>
+                    <%= button_to "/backoffice/counts/#{params[:count_id]}/expensive_items/#{expensive_item.id}", class: "btn btn-xs btn-danger rounded", title: 'Delete', confirm: 'Sei davvero sicuro di voler eliminare questa categoria?', method: :delete do %>
+                      <i class="fas fa-fw fa-trash"></i>
+                    <% end %>
+                  <% end %>
+                </div>
+              </td>
+            </tr>
+          <% end %>
+          </tbody>
+        </table>
+      </div>
+    <% else %>
+      <div class="text-center">
+        <p class="text-muted">
+          <i class="fas fa-sad-tear fa-2x fa-align-middle mr-2 mb-5"></i>
+          Al momento non ci sono voci di spesa in archivio...
+        </p>
+      </div>
+    <% end %>
+  </div>
+</div>
