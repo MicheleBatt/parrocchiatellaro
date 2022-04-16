@@ -1,0 +1,22 @@
+<%= form_with(model: expensive_item) do |form| %>
+  <% if expensive_item.errors.any? %>
+    <div style="color: red">
+      <h2><%= pluralize(expensive_item.errors.count, "error") %> prohibited this expensive_item from being saved:</h2>
+
+      <ul>
+        <% expensive_item.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div>
+    <%= form.label :description, style: "display: block" %>
+    <%= form.text_area :description %>
+  </div>
+
+  <div>
+    <%= form.submit %>
+  </div>
+<% end %>

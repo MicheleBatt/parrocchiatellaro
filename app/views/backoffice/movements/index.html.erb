@@ -1,0 +1,11 @@
+<p style="color: green"><%= notice %></p>
+
+<h1>Elenco di tutti i movimenti di cassa della parrocchia</h1>
+
+<%= react_component("IndexMovements", {
+  movements: from_jbuilder('backoffice/movements/index.json.jbuilder'),
+  expensive_items: ExpensiveItem.order(description: :asc).pluck(:description, :id)
+})
+%>
+
+<%= link_to "New movement", new_backoffice_movement_path, class: "btn btn-primary" %>

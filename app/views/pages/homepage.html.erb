@@ -1,2 +1,28 @@
 <h1>Pages#homepage</h1>
 <p>HELLO TELLARO!!!!!</p>
+
+
+<p>
+  <%= link_to 'BACKOFFICE', backoffice_movements_path %>
+</p>
+<button type="button" class="btn btn-secondary mb-5">Secondary</button>
+
+<%= react_component("Hello",
+  {
+    hello: 'ciao mondo'
+  })
+%>
+
+
+<% if user_signed_in? %>
+  <%= current_user.email %>
+  <%= button_to 'LOG OUT', destroy_user_session_path, class: 'btn btn-primary', :method => :delete %>
+<% else %>
+  <%= link_to 'REGISTRAZIONE', new_user_registration_path, class: 'btn btn-primary' %>
+  <%= link_to 'Log in', new_user_session_path, class: 'btn btn-primary' %>
+<% end %>
+
+<%# if user_signed_in? %>
+<%# else %>
+<%# end %>
+

@@ -3,4 +3,13 @@ Rails.application.routes.draw do
 
   # Defines the root path route ("/")
   root 'pages#homepage'
+
+
+  devise_for :users
+
+  #BACKOFFICE
+  namespace :backoffice do
+    resources :expensive_items
+    resources :movements
+  end
 end
