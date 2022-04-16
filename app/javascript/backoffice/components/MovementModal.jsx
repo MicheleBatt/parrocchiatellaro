@@ -4,7 +4,7 @@ import {isValidMovement} from "../../utils";
 import MovementForm from "./MovementForm";
 
 
-const MovementModal = ({ movement, setMovement, expensive_items, handleConfirm }) => {
+const MovementModal = ({ movement, setMovement, expensive_items, handleConfirm, handleChangeDocument }) => {
 
     console.log('expensive_items: ', expensive_items)
     console.log('movement: ', movement)
@@ -33,6 +33,7 @@ const MovementModal = ({ movement, setMovement, expensive_items, handleConfirm }
                     movement={movement}
                     setMovement={setMovement}
                     expensive_items={expensive_items}
+                    handleChangeDocument={handleChangeDocument}
                 />
             </Modal.Body>
 

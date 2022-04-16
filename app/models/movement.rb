@@ -1,8 +1,13 @@
 class Movement < ApplicationRecord
+
+  include Rails.application.routes.url_helpers
+
+
   belongs_to :expensive_item
   belongs_to :count
+  has_one_attached :document, dependent: :destroy
 
-  validates :amount, :causal, :movement_type, :currency_date, :year, :month, :year_month, presence: true
+  validates :amount, :causal, :movement_type, :currency_date, presence: true
   validate :is_valid_amount
 
   enum movement_type: %w[in out].index_by(&:itself), _prefix: :movement_type
@@ -24,5 +29,10 @@ class Movement < ApplicationRecord
 
   def parsed_currency_date
     self.currency_date.in_time_zone('Europe/Rome').strftime('%-d %B %Y, %H:%M')
+  end
+
+  def document_file_path
+    # Rails.root.join(ActiveStorage::Blob.service.path_for(self.document.key)) if self.document.attached?
+    rails_blob_path(self.document, disposition: 'attachment', only_path: true) if self.document.attached?
   end
 end

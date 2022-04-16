@@ -29,6 +29,7 @@ const IndexMovements = ({
     const [ filters, setFilters ] = useState(initialFilters)
     const [ focus, setFocus ] = useState(false)
     const [ page, setPage ] = useState(1);
+    const [ attachment, setAttachment ] = useState(null)
 
     const newOutMovement = {
         count_id: count.id,
@@ -38,7 +39,8 @@ const IndexMovements = ({
         note: '',
         currency_date: null,
         movement_type: 'out',
-        is_new: true
+        is_new: true,
+        document: null
     }
 
     const newInMovement = {
@@ -49,14 +51,16 @@ const IndexMovements = ({
         note: '',
         currency_date: null,
         movement_type: 'in',
-        is_new: true
+        is_new: true,
+        document: null
     }
 
     const [ movement, setMovement ] = useState(null)
     const [ showExpensiveItemModal, setShowExpensiveItemModal ] = useState(false)
 
     console.log('count: ', count)
-    // console.log('expensiveItems: ', expensiveItems)
+    console.log('expensiveItems: ', expensiveItems)
+    console.log('attachment: ', attachment)
 
 
 
@@ -90,17 +94,35 @@ const IndexMovements = ({
     }, [ filters ]);
 
 
+    // Funzione che permette di allegare un documento a un movimento di cassa
+    const handleChangeDocument = (e) => {
+        let file = e.target.files[0]
+        if (!file) {
+            file = e.dataTransfer.files[0]
+        }
+
+        setMovement({...movement, document: file})
+        setAttachment(file);
+    }
+
     // Funzione che permette di creare un nuovo movimento di cassa / modificarne uno già esistente mediante query al server
     const handleCreateUpdateMovement = () => {
         const url = movement.id ? `/backoffice/movements/${movement.id}` : "/backoffice/movements";
 
+        console.log('movement: ', movement)
+
+        const newMovement = { movement: movement }
+        const formData = new FormData();
+        Object.entries(newMovement).forEach(([key, value]) => {
+            Object.entries(newMovement[key]).forEach(([k, v]) => {
+                if (v !== null)
+                    formData.append(`${key}[${k}]`, v)
+            })
+        })
+
         fetch(url + '.json', {
             method: movement.id ? "PUT" : "POST",
-            headers: {
-                Accept: "application/json",
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify(movement),
+            body: formData,
         }).then((res) => {
             setMovement(null)
             if (!res.ok)
@@ -115,6 +137,31 @@ const IndexMovements = ({
                 setShowErrorModal(true)
                 console.error("ERROR:", error);
             });
+    }
+
+
+    // Funzione che elimina un certo movimento di cassa dal conto
+    function onDeleteHandler(movementId) {
+        if (window.confirm("Sei davvero sicuro di voler cancellare questo movimento dal conto?")) {
+            const url = `/backoffice/movements/${movementId}`;
+
+            fetch(url + ".json", {
+                method: "DELETE",
+            })
+                .then((response) => {
+                    if (!response.ok)
+                        throw Error("An error occour during saving data on the database");
+                    else
+                        return response.json();
+                })
+                .then(data => {
+                    location.reload()
+                })
+                .catch((error) => {
+                    console.error("ERROR:", error);
+                    setShowErrorModal(true);
+                });
+        }
     }
 
 
@@ -179,7 +226,24 @@ const IndexMovements = ({
 
     const MovementRowTable = ({ movement }) => {
         
-        return <>
+        return <React.Fragment>
+            <td className="text-center b-solid"
+                style={{ background: movement.expensive_item ? movement.expensive_item.color : 'transparent' }}>
+                <div className="d-flex justify-content-center text-center">
+                    <button type="button"
+                            className="btn list-icon p-0 mr-2"
+                            onClick={(e) => onDeleteHandler(movement.id) }>
+                        <i className="fas fa-fw fa-trash fa-lg"/>
+                    </button>
+
+                    {
+                        movement.document_file_path &&
+                            <a href={movement.document_file_path}>
+                                <i className="fas fa-fw fa-file fa-lg"/>
+                            </a>
+                    }
+                </div>
+            </td>
             <td className="text-center b-solid cursor-pointer"
                 style={{ background: movement.expensive_item ? movement.expensive_item.color : 'transparent' }}
                 onClick={() => setMovement(movement)}
@@ -198,30 +262,33 @@ const IndexMovements = ({
             >
                 { parseAmount(movement.amount) }
             </td>
-        </>
+        </React.Fragment>
     }
 
 
     const EmptyRowTable = ({ }) => {
 
-        return <>
+        return <React.Fragment>
             <td className="b-left-solid b-top-bottom-transparent" />
             <td className="b-top-bottom-transparent" />
+            <td className="b-top-bottom-transparent" />
             <td className="b-right-solid b-top-bottom-transparent"/>
-        </>
+        </React.Fragment>
     }
 
 
     const FullEmptyRowTable = ({ }) => {
 
-        return <>
+        return <React.Fragment>
             <td className="b-left-solid b-top-bottom-transparent" />
             <td className="b-top-bottom-transparent" />
             <td className="b-top-bottom-transparent" />
             <td className="b-top-bottom-transparent" />
             <td className="b-top-bottom-transparent" />
+            <td className="b-top-bottom-transparent" />
+            <td className="b-top-bottom-transparent" />
             <td className="b-right-solid b-top-bottom-transparent"/>
-        </>
+        </React.Fragment>
     }
     
     
@@ -319,7 +386,7 @@ const IndexMovements = ({
                           value={filters.min_amount ? filters.min_amount : ""}
                           className="form-control"
                           placeholder="Scrivi l'importo minimo"
-                          onChange={(e) => updateFilters("min_amount", e.target.value) }
+                          onChange={(e) => updateFilters("min_amount", e.target.value && e.target.value >= 0 ? e.target.value : 0.0) }
                           name="min_amount_filter"
                           id="min_amount_filter"
                       />
@@ -332,7 +399,7 @@ const IndexMovements = ({
                           value={filters.max_amount ? filters.max_amount : ""}
                           className="form-control"
                           placeholder="Scrivi l'importo massimo"
-                          onChange={(e) => updateFilters("max_amount", e.target.value) }
+                          onChange={(e) => updateFilters("max_amount", e.target.value && e.target.value >= 0 ? e.target.value : 0.0) }
                           name="max_amount_filter"
                           id="max_amount_filter"
                       />
@@ -383,7 +450,7 @@ const IndexMovements = ({
               <div className="d-flex justify-content-start w-100 mb-5">
                   <div className="text-right pr-5">
                       <h4>
-                          FONDO CASSA ATTUALE:
+                          FONDO CASSA ATTUALE:&nbsp;
                           <span className={`${currentAmount <= 0.0 ? 'color-red' : 'color-green'}`}>{parseAmount(currentAmount)}</span>
                       </h4>
                   </div>
@@ -394,17 +461,19 @@ const IndexMovements = ({
               <table className="table table-hover no-margins">
                   <thead>
                   <tr>
-                      <th className="text-center b-solid color-red text-underline" colSpan="3">
+                      <th className="text-center b-solid color-red text-underline" colSpan="4">
                           <h3><b>USCITE</b></h3>
                       </th>
-                      <th className="text-center b-solid color-red text-underline" colSpan="3">
+                      <th className="text-center b-solid color-red text-underline" colSpan="4">
                           <h3><b>ENTRATE</b></h3>
                       </th>
                   </tr>
                   <tr>
+                      <th className="text-center b-solid"></th>
                       <th className="text-center b-solid text-underline">Data</th>
                       <th className="text-center b-solid text-underline">Causale</th>
                       <th className="text-center b-solid text-underline">Importo</th>
+                      <th className="text-center b-solid"></th>
                       <th className="text-center b-solid text-underline">Data</th>
                       <th className="text-center b-solid text-underline">Causale</th>
                       <th className="text-center b-solid text-underline">Importo</th>
@@ -416,19 +485,19 @@ const IndexMovements = ({
 
                           {
                               movement.movement_type === 'out' ?
-                                  <>
+                                  <React.Fragment>
                                       <MovementRowTable
                                           movement={movement}
                                       />
                                       <EmptyRowTable />
-                                  </>
+                                  </React.Fragment>
                                   :
-                                  <>
+                                  <React.Fragment>
                                       <EmptyRowTable />
                                       <MovementRowTable
                                           movement={movement}
                                       />
-                                  </>
+                                  </React.Fragment>
                           }
                       </tr>
                   ))}
@@ -438,13 +507,13 @@ const IndexMovements = ({
                   </tr>
 
                   <tr key="total">
-                      <td className="text-right b-solid" colSpan="2">
+                      <td className="text-right b-solid" colSpan="3">
                           <b>TOTALE:</b>
                       </td>
                       <td className="text-center b-solid bg-red">
                           {parseAmount(count.out_amount)}
                       </td>
-                      <td className="text-right b-solid" colSpan="2">
+                      <td className="text-right b-solid" colSpan="3">
                           <b>TOTALE:</b>
                       </td>
                       <td className="text-center b-solid bg-green">
@@ -460,7 +529,7 @@ const IndexMovements = ({
                   </tr>
 
                   <tr key="total_3">
-                      <td className="text-right b-solid" colSpan="5">
+                      <td className="text-right b-solid" colSpan="7">
                           DIFFERENZA ENTRATE / USCITE:
                       </td>
                       <td className={`text-center b-solid ${ count.in_amount < count.out_amount ? 'bg-red' : 'bg-green' }`}>
@@ -478,7 +547,7 @@ const IndexMovements = ({
                   {expensiveItems.map((expensiveItem, i) => (
                       <tr key={`movement-${expensiveItem.id}`}
                           style={{ background: expensiveItem.color }}>
-                          <td className="text-right b-solid" colSpan="5">
+                          <td className="text-right b-solid" colSpan="7">
                               <b>AMMONTARE { expensiveItem.description.toUpperCase() }:</b>
                           </td>
                           <td className="text-center b-solid">
@@ -498,6 +567,7 @@ const IndexMovements = ({
                   setMovement={setMovement}
                   expensive_items={expensiveItems}
                   handleConfirm={handleCreateUpdateMovement}
+                  handleChangeDocument={handleChangeDocument}
               />
 
               <ErrorModal

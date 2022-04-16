@@ -30,10 +30,13 @@ class Backoffice::MovementsController < BackofficeController
   # POST /movements or /movements.json
   def create
     begin
-      @movement = Movement.create!(movement_params)
+      byebug
+      @movement = Movement.new(movement_params)
+      @movement.save!
 
       render json: @movement
     rescue StandardError => e
+      byebug
       render json: { messages: e.message }, status: :unprocessable_entity
     end
   end
@@ -52,11 +55,13 @@ class Backoffice::MovementsController < BackofficeController
 
   # DELETE /movements/1 or /movements/1.json
   def destroy
-    @movement.destroy
+    begin
+      @movement.destroy
 
-    respond_to do |format|
-      format.html { redirect_to movements_url, notice: "Movement was successfully destroyed." }
-      format.json { head :no_content }
+      render json: {}
+    rescue StandardError => e
+      Rails.logger.warn e
+      render json: { message: e.message }, status: :unprocessable_entity
     end
   end
 
@@ -68,6 +73,6 @@ class Backoffice::MovementsController < BackofficeController
 
     # Only allow a list of trusted parameters through.
     def movement_params
-      params.require(:movement).permit(:user_id, :expensive_item_id, :amount, :causal, :movement_type, :currency_date, :note, :count_id)
+      params.require(:movement).permit(:user_id, :expensive_item_id, :amount, :causal, :movement_type, :currency_date, :note, :count_id, :document)
     end
 end

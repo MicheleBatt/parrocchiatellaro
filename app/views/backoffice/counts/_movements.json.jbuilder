@@ -8,6 +8,7 @@ json.array! @movements.each do | movement |
   json.movement_type movement.movement_type
   json.year movement.year
   json.month movement.month
+  json.document_file_path movement.document_file_path
 
   if movement.expensive_item.present?
     json.expensive_item_id movement.expensive_item_id

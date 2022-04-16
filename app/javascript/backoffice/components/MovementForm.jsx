@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from "react";
 
 
-const MovementForm = ({ movement, setMovement, expensive_items }) => {
+const MovementForm = ({ movement, setMovement, expensive_items, handleChangeDocument }) => {
 
     console.log('expensive_items: ', expensive_items)
     console.log('movement: ', movement)
@@ -44,7 +44,7 @@ const MovementForm = ({ movement, setMovement, expensive_items }) => {
                            id="movement_amount"
                            className="form-control"
                            value={movement.amount}
-                           onChange={(e) => setMovement({ ...movement, amount: e.target.value })} />
+                           onChange={(e) => setMovement({ ...movement, amount: e.target.value && e.target.value >= 0 ? e.target.value : 0.0 })} />
                 </div>
 
                 <div className="col-6 d-block justify-content-start mt-3">
@@ -63,6 +63,18 @@ const MovementForm = ({ movement, setMovement, expensive_items }) => {
                             })
                         }
                     </select>
+                </div>
+
+                <div className="col-6 d-block justify-content-start mt-3">
+                    <b style={{display: 'block'}}>Allegato</b>
+                    <input
+                        accept="image/jpeg, image/gif, image/png, application/pdf"
+                        type="file"
+                        id="document"
+                        name="document"
+                        className="mt-1"
+                        onDrop={handleChangeDocument}
+                        onChange={handleChangeDocument} />
                 </div>
             </div>
 
