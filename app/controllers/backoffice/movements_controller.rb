@@ -30,13 +30,11 @@ class Backoffice::MovementsController < BackofficeController
   # POST /movements or /movements.json
   def create
     begin
-      byebug
       @movement = Movement.new(movement_params)
       @movement.save!
 
       render json: @movement
     rescue StandardError => e
-      byebug
       render json: { messages: e.message }, status: :unprocessable_entity
     end
   end

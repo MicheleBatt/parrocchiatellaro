@@ -64,8 +64,6 @@ const IndexMovements = ({
 
 
 
-
-
     useEffect(() => {
         if (!initCompleted) {
             setInitCompleted(true)
@@ -104,6 +102,7 @@ const IndexMovements = ({
         setMovement({...movement, document: file})
         setAttachment(file);
     }
+
 
     // Funzione che permette di creare un nuovo movimento di cassa / modificarne uno già esistente mediante query al server
     const handleCreateUpdateMovement = () => {
@@ -184,7 +183,8 @@ const IndexMovements = ({
             .catch((err) => console.log(err));
     }
 
-    // Funzione che aggiunge un nuovo expensive item creato
+
+    // Funzione che aggiunge un nuovo expensive item
     // alla lista di tutti gli expensive items disponibili per il conto
     const appendExpensiveItem = (newExpensiveItem) => {
         setExpensiveItems(expensiveItems.concat([newExpensiveItem]))
@@ -197,7 +197,6 @@ const IndexMovements = ({
     }
 
 
-
     // Funzione che permette di ottenere dal server i movimenti di cassa che matchano con i filtri
     // di ricerca specificati dall'utente sull'interfaccia grafica
     const updateFilters = (filter, value) => {
@@ -207,13 +206,11 @@ const IndexMovements = ({
     }
 
 
-
     // Funzione che avvia una nuova ricerca di movimenti di cassa secondo i nuovi filtri di ricerca impostati dall'utente
     // sull'interfaccia grafica
     const handleSearch = () => {
         setCount({ ...count, movements: [] });
     }
-
 
 
     // Funzione che si occupa di resettare tutti i filtri di ricerca specificati dall'utente sull'interfaccia grafica
@@ -239,7 +236,7 @@ const IndexMovements = ({
                     {
                         movement.document_file_path &&
                             <a href={movement.document_file_path}>
-                                <i className="fas fa-fw fa-file fa-lg"/>
+                                <i className="fas fa-fw fa-file fa-lg color-black"/>
                             </a>
                     }
                 </div>

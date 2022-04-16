@@ -10,8 +10,7 @@ const MovementModal = ({ movement, setMovement, expensive_items, handleConfirm, 
     console.log('movement: ', movement)
 
 
-    // Funzione che gestisce la chiusura della modale che permette all'utente di aggiornare i dati
-    // associati alla blueprint_image
+    // Funzione che gestisce la chiusura della modale
     const handleCloseModal = () => {
         setMovement(null);
     }
