@@ -71,6 +71,6 @@ class Backoffice::MovementsController < BackofficeController
 
     # Only allow a list of trusted parameters through.
     def movement_params
-      params.require(:movement).permit(:user_id, :expensive_item_id, :amount, :causal, :movement_type, :currency_date, :note, :count_id, :document)
+      params.require(:movement).permit(:expensive_item_id, :amount, :causal, :movement_type, :currency_date, :note, :count_id, :document)
     end
 end

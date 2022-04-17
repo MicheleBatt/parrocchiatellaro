@@ -3,5 +3,5 @@
     originalExpensiveItem: @expensive_item,
     colors: colors(params[:count_id].to_i),
     count_id: params[:count_id].to_i
-  })
+  }, prerender: true)
 %>

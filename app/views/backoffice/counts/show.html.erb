@@ -8,7 +8,7 @@
     expensive_items: render(template: 'backoffice/counts/expensive_items', formats: [:json]),
     currentAmount: current_count_amount(@count),
     originalColors: colors(params[:id].to_i)
-  })
+  }, prerender: true)
 %>
 
 
