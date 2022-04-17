@@ -9,7 +9,7 @@ class Backoffice::CountsController < BackofficeController
 
   # GET /counts/1 or /counts/1.json
   def show
-    @movements = Movement.where(count_id: @count.id).order(currency_date: :desc, id: :desc)
+    @movements = Movement.includes(document_attachment: :blob).where(count_id: @count.id).order(currency_date: :desc, id: :desc)
 
     @movements = filter_movements(@movements, params)
 

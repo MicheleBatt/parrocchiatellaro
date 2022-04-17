@@ -224,7 +224,7 @@ const IndexMovements = ({
     const MovementRowTable = ({ movement }) => {
         
         return <React.Fragment>
-            <td className="text-center b-solid"
+            <td className="text-center b-solid pl-0 pr-0"
                 style={{ background: movement.expensive_item ? movement.expensive_item.color : 'transparent' }}>
                 <div className="d-flex justify-content-center text-center">
                     <button type="button"
@@ -248,7 +248,7 @@ const IndexMovements = ({
                 { movement.currency_date }
             </td>
             <td className="text-center b-solid cursor-pointer"
-                style={{ background: movement.expensive_item ? movement.expensive_item.color : 'transparent' }}
+                style={{ background: movement.expensive_item ? movement.expensive_item.color : 'transparent', whiteSpace: 'normal' }}
                 onClick={() => setMovement(movement)}
             >
                 { movement.causal }
@@ -458,10 +458,10 @@ const IndexMovements = ({
               <table className="table table-hover no-margins">
                   <thead>
                   <tr>
-                      <th className="text-center b-solid color-red text-underline" colSpan="4">
+                      <th className="text-center b-solid color-red text-underline w-50" colSpan="4">
                           <h3><b>USCITE</b></h3>
                       </th>
-                      <th className="text-center b-solid color-red text-underline" colSpan="4">
+                      <th className="text-center b-solid color-red text-underline w-50" colSpan="4">
                           <h3><b>ENTRATE</b></h3>
                       </th>
                   </tr>
