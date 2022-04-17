@@ -26,9 +26,6 @@ const ExpensiveItemForm = ({ originalExpensiveItem, colors, count_id, handleCanc
                 },
                 body: JSON.stringify(expensiveItem)
             }).then(response => {
-                if (handleCancel)
-                    handleCancel()
-
                 console.log('response: ', response)
                 if (!response.ok)
                     throw Error("An error occour during saving data on the database");
@@ -37,8 +34,11 @@ const ExpensiveItemForm = ({ originalExpensiveItem, colors, count_id, handleCanc
             }).then(data => {
                 if (!handleCancel)
                     window.location = `/backoffice/counts/${count_id}/expensive_items`
-                else if (appendExpensiveItem)
-                    appendExpensiveItem(data)
+                else {
+                    handleCancel()
+                    if (appendExpensiveItem)
+                        appendExpensiveItem(data)
+                }
             }).catch((error) => {
                 console.log('ERROR:', error);
                 console.error('ERROR:', error);
