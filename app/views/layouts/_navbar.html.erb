@@ -15,14 +15,14 @@
           </li>
 
           <%= button_to destroy_user_session_path, class: 'btn btn-secondary', :method => :delete do %>
-            <i class="fas fa-sign-out-alt mr-1 w-5"></i>
+            <i aria-hidden="true" class="fas fa-sign-out-alt mr-1 w-5"></i>
             <span class="nav-label">
               Log Out
             </span>
           <% end %>
         <% else %>
           <%= link_to new_user_session_path, class: 'btn btn-primary' do %>
-            <i class="fas fa-sign-in-alt mr-1 w-5"></i>
+            <i aria-hidden="true" class="fas fa-sign-in-alt mr-1 w-5"></i>
             <span class="nav-label">
               Log In
             </span>

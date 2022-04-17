@@ -14,7 +14,7 @@
       <% end %>
 
       <%= link_to new_backoffice_count_expensive_item_path, class:"btn btn-primary" do %>
-        <i class="fas fa-plus mr-1 w-5"></i>
+        <i aria-hidden="true" class="fas fa-plus mr-1 w-5"></i>
         <span class="nav-label">
           Inserisci una nuova Categoria
         </span>
@@ -46,11 +46,11 @@
               <td class="text-center">
                 <div class="btn-group">
                   <%= link_to "/backoffice/counts/#{params[:count_id]}/expensive_items/#{expensive_item.id}/edit", class: "btn btn-xs btn-secondary rounded mr-1", title: 'Edit' do %>
-                    <i class="fas fa-fw fa-edit"></i>
+                    <i aria-hidden="true" class="fas fa-fw fa-edit"></i>
                   <% end %>
                   <% if expensive_item.movements.blank? %>
                     <%= button_to "/backoffice/counts/#{params[:count_id]}/expensive_items/#{expensive_item.id}", class: "btn btn-xs btn-danger rounded", title: 'Delete', confirm: 'Sei davvero sicuro di voler eliminare questa categoria?', method: :delete do %>
-                      <i class="fas fa-fw fa-trash"></i>
+                      <i aria-hidden="true" class="fas fa-fw fa-trash"></i>
                     <% end %>
                   <% end %>
                 </div>
@@ -63,7 +63,7 @@
     <% else %>
       <div class="text-center">
         <p class="text-muted">
-          <i class="fas fa-sad-tear fa-2x fa-align-middle mr-2 mb-5"></i>
+          <i aria-hidden="true" class="fas fa-sad-tear fa-2x fa-align-middle mr-2 mb-5"></i>
           Al momento non ci sono voci di spesa in archivio...
         </p>
       </div>

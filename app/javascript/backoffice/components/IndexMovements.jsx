@@ -230,13 +230,13 @@ const IndexMovements = ({
                     <button type="button"
                             className="btn list-icon p-0 mr-2"
                             onClick={(e) => onDeleteHandler(movement.id) }>
-                        <i className="fas fa-fw fa-trash fa-lg"/>
+                        <i aria-hidden className="fas fa-fw fa-trash fa-lg"/>
                     </button>
 
                     {
                         movement.document_file_path &&
                             <a href={movement.document_file_path}>
-                                <i className="fas fa-fw fa-file fa-lg color-black"/>
+                                <i aria-hidden className="fas fa-fw fa-file fa-lg color-black"/>
                             </a>
                     }
                 </div>
@@ -322,7 +322,7 @@ const IndexMovements = ({
                       <a
                           href={`/backoffice/counts/${count.id}/expensive_items`}
                           className="btn btn-secondary">
-                          <i className="fas fa-list mr-1 w-5"></i>
+                          <i aria-hidden className="fas fa-list mr-1 w-5"></i>
                           <span className="nav-label">
                             Visualizza tutte le Categorie
                           </span>
@@ -430,7 +430,7 @@ const IndexMovements = ({
                       <br/>
                       <button className="btn btn-warning mt-2"
                               onClick={handleSearch}>
-                          <i className="fas fa-search" aria-hidden="true" /> Cerca
+                          <i aria-hidden className="fas fa-search" /> Cerca
                       </button>
                   </div>
 

@@ -15,7 +15,7 @@ const MovementForm = ({ movement, setMovement, expensive_items, handleChangeDocu
                            name="currency_date"
                            id="movement_currency_date"
                            className="form-control"
-                           value={movement.currency_date}
+                           value={movement.currency_date ? movement.currency_date : ''}
                            onChange={(e) => setMovement({ ...movement, currency_date: e.target.value })} />
                 </div>
 
@@ -43,7 +43,7 @@ const MovementForm = ({ movement, setMovement, expensive_items, handleChangeDocu
                            name="amount"
                            id="movement_amount"
                            className="form-control"
-                           value={movement.amount}
+                           value={movement.amount ? movement.amount : 0.0}
                            onChange={(e) => setMovement({ ...movement, amount: e.target.value && e.target.value >= 0 ? e.target.value : 0.0 })} />
                 </div>
 
@@ -51,7 +51,7 @@ const MovementForm = ({ movement, setMovement, expensive_items, handleChangeDocu
                     <b>Categoria</b>
                     <select
                         className="form-control mb-3"
-                        value={movement.expensive_item_id}
+                        value={movement.expensive_item_id ? movement.expensive_item_id : ''}
                         onChange={(e) => setMovement({ ...movement, expensive_item_id: e.target.value })}
                     >
                         <option value="" key="empty_item">Seleziona una Categoria</option>
@@ -84,7 +84,7 @@ const MovementForm = ({ movement, setMovement, expensive_items, handleChangeDocu
                     <input
                         type="text"
                         className="form-control mb-3"
-                        value={movement.causal}
+                        value={movement.causal ? movement.causal : ''}
                         onChange={(e) => setMovement({ ...movement, causal: e.target.value })}
                     />
                 </div>
@@ -96,7 +96,7 @@ const MovementForm = ({ movement, setMovement, expensive_items, handleChangeDocu
                     <input
                         type="text"
                         className="form-control mb-3"
-                        value={movement.note}
+                        value={movement.note ? movement.note : ''}
                         onChange={(e) => setMovement({ ...movement, note: e.target.value })}
                     />
                 </div>
