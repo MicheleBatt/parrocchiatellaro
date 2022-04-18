@@ -33,6 +33,6 @@ class Movement < ApplicationRecord
 
   def document_file_path
     # Rails.root.join(ActiveStorage::Blob.service.path_for(self.document.key)) if self.document.attached?
-    rails_blob_path(self.document, disposition: 'attachment', only_path: true) if self.document.attached?
+    rails_blob_path(self.document, disposition: 'preview', only_path: true) if self.document.attached?
   end
 end

@@ -11,8 +11,12 @@
       <%= f.text_field :description, class: 'form-control' %>
     </div>
     <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-5">
+      <%= f.label :iban, style: "display: block" %>
+      <%= f.text_field :iban, class: 'form-control' %>
+    </div>
+    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-5">
       <%= f.label :ammontare_iniziale, style: "display: block" %>
-      <%= f.number_field :initial_amount, class: 'form-control' %>
+      <%= f.number_field :initial_amount, value: number_to_currency(f.object.initial_amount.to_f, delimiter: '', unit: ''), step: :any, class: 'form-control' %>
     </div>
   </div>
 

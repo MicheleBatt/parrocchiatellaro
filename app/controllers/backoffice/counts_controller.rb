@@ -90,7 +90,7 @@ class Backoffice::CountsController < BackofficeController
 
     # Only allow a list of trusted parameters through.
     def count_params
-      params.require(:count).permit(:name, :description, :initial_amount)
+      params.require(:count).permit(:name, :description, :initial_amount, :iban)
     end
 
     def filter_movements(movements, params)

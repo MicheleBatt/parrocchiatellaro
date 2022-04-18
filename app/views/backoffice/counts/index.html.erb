@@ -32,7 +32,12 @@
             <tr>
               <td class="text-center"><%= count.id %></td>
 
-              <td class="text-center"><%= count.name %></td>
+              <td class="text-center">
+                <%= count.name %>
+                <% if count.iban.present? %>
+                  <br><br>
+                  <%= count.iban %>
+                <% end %></td>
               <td class="text-center"><%= count.description %></td>
               <td class="text-center"><%= current_count_amount(count) %>€</td>
 

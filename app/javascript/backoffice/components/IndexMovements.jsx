@@ -235,7 +235,7 @@ const IndexMovements = ({
 
                     {
                         movement.document_file_path &&
-                            <a href={movement.document_file_path}>
+                            <a href={movement.document_file_path} target="_blank">
                                 <i aria-hidden className="fas fa-fw fa-file fa-lg color-black"/>
                             </a>
                     }
