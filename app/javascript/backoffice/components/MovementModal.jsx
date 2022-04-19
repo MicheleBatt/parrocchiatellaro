@@ -24,7 +24,12 @@ const MovementModal = ({ movement, setMovement, expensive_items, handleConfirm, 
         >
             <Modal.Header>
                 <h4>
-                    Inserisci un nuovo movimento di cassa sul Conto
+                    {
+                        movement && movement.id ?
+                            'Modifica movimento di cassa'
+                        :
+                            'Inserisci un nuovo movimento di cassa sul Conto'
+                    }
                 </h4>
             </Modal.Header>
             <Modal.Body>
