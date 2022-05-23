@@ -1,6 +1,6 @@
 class Count < ApplicationRecord
   has_many :movements, dependent: :destroy
-  has_many :expensive_items, dependent: :destroy
+  has_many :expensive_items, -> { order(id: :asc) }, dependent: :destroy
 
   validates :name, presence: true
   validate :is_valid_initial_amount

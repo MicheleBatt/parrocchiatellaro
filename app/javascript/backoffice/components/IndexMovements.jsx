@@ -164,13 +164,22 @@ const IndexMovements = ({
     }
 
 
-    // Funzione che permette di ottenere dal server nuovi movimenti del conto
-    const getCount = () => {
-        let url = `/backoffice/counts/${count.id}.json?page=${page}`
+    // Funzione che aggiunge (eventuali) filtri all'endopoint del server che ritorna tutti i movimenti del conto
+    const addFiltersToUrl = (url) => {
         Object.entries(filters).forEach(([fieldName, fieldValue]) => {
             if (fieldValue !== null)
                 url += `&${fieldName}=${fieldValue}`
         })
+
+        return url
+    }
+
+
+    // Funzione che permette di ottenere dal server nuovi movimenti del conto
+    const getCount = () => {
+        let url = `/backoffice/counts/${count.id}.json?page=${page}`
+
+        url = addFiltersToUrl(url)
 
         fetch(url, {
             method: 'GET'
@@ -321,10 +330,19 @@ const IndexMovements = ({
 
                       <a
                           href={`/backoffice/counts/${count.id}/expensive_items`}
-                          className="btn btn-secondary">
+                          className="btn btn-secondary mr-3">
                           <i aria-hidden className="fas fa-list mr-1 w-5"></i>
                           <span className="nav-label">
-                            Visualizza tutte le Categorie
+                            Categorie
+                          </span>
+                      </a>
+
+                      <a
+                          href={addFiltersToUrl(`/backoffice/counts/${count.id}?export_to_pdf=true`)}
+                          className="btn btn-dark">
+                          <i aria-hidden className="fas fa-print mr-1 w-5"></i>
+                          <span className="nav-label">
+                            Stampa
                           </span>
                       </a>
                   </div>
@@ -403,7 +421,7 @@ const IndexMovements = ({
                   </div>
 
                   <div className="col-1 pr-0 pl-0">
-                      <label>A partire da</label>
+                      <label>A partire dal</label>
                       <input
                           type="date"
                           value={filters.from_date ? filters.from_date : ""}

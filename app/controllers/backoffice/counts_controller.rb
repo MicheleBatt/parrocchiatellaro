@@ -9,7 +9,7 @@ class Backoffice::CountsController < BackofficeController
 
   # GET /counts/1 or /counts/1.json
   def show
-    @movements = Movement.includes(document_attachment: :blob).where(count_id: @count.id).order(currency_date: :desc, id: :desc)
+    @movements = Movement.includes(:expensive_item, document_attachment: :blob).where(count_id: @count.id).order(currency_date: :desc, id: :desc)
 
     @movements = filter_movements(@movements, params)
 
@@ -27,11 +27,19 @@ class Backoffice::CountsController < BackofficeController
       end
     end
 
-    respond_to do |format|
-      format.html { render :show }
-      format.json {
-        render 'backoffice/counts/count'
-      }
+    if params[:export_to_pdf].to_s == 'true'
+      send_data(
+        ExportMovementsToPdfCommand.call(@count, @movements, @out_amount, @in_amount, @in_out_amount, @movements_amounts_by_expensive_item, params),
+        :filename => "movimenti.pdf",
+        :type => "application/pdf"
+      )
+    else
+      respond_to do |format|
+        format.html { render :show }
+        format.json {
+          render 'backoffice/counts/count'
+        }
+      end
     end
   end
 
