@@ -4,7 +4,7 @@ class Backoffice::CountsController < BackofficeController
 
   # GET /counts or /counts.json
   def index
-    @counts = Count.all.order(id: :asc)
+    @counts = Count.all.order(id: :asc).includes(:movements)
   end
 
   # GET /counts/1 or /counts/1.json

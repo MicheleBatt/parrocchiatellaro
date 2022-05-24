@@ -49,6 +49,11 @@
                   <%= link_to edit_backoffice_count_path(count), class: "btn btn-xs btn-secondary rounded mr-1", title: 'Edit' do %>
                     <i aria-hidden="true" class="fas fa-fw fa-edit"></i>
                   <% end %>
+                  <% if count.movements.blank? %>
+                    <%= button_to "/backoffice/counts/#{count.id}", :method => :delete, class: "btn btn-xs btn-danger rounded" do %>
+                      <i aria-hidden="true" class="fas fa-fw fa-trash"></i>
+                    <% end %>
+                  <% end %>
                 </div>
               </td>
             </tr>

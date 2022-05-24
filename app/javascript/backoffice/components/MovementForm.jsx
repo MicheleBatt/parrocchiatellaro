@@ -65,17 +65,17 @@ const MovementForm = ({ movement, setMovement, expensive_items, handleChangeDocu
                     </select>
                 </div>
 
-                <div className="col-6 d-block justify-content-start mt-3">
-                    <b style={{display: 'block'}}>Allegato</b>
-                    <input
-                        accept="image/jpeg, image/gif, image/png, application/pdf"
-                        type="file"
-                        id="document"
-                        name="document"
-                        className="mt-1"
-                        onDrop={handleChangeDocument}
-                        onChange={handleChangeDocument} />
-                </div>
+                {/*<div className="col-6 d-block justify-content-start mt-3">*/}
+                {/*    <b style={{display: 'block'}}>Allegato</b>*/}
+                {/*    <input*/}
+                {/*        accept="image/jpeg, image/gif, image/png, application/pdf"*/}
+                {/*        type="file"*/}
+                {/*        id="document"*/}
+                {/*        name="document"*/}
+                {/*        className="mt-1"*/}
+                {/*        onDrop={handleChangeDocument}*/}
+                {/*        onChange={handleChangeDocument} />*/}
+                {/*</div>*/}
             </div>
 
             <div className="row mb-3">
